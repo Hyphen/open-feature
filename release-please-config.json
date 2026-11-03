@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "d4a970d791503c7e6bde1d1d9f445a42a58fba67",
+  "separate-pull-requests": true,
+  "include-component-in-tag": true,
+  "include-v-in-tag": true,
+  "bump-minor-pre-major": false,
+  "bump-patch-for-minor-pre-major": false,
+  "draft": false,
+  "prerelease": false,
+  "packages": {
+    "go": {
+      "release-type": "go",
+      "component": "go",
+      "tag-separator": "/"
+    },
+    "javascript/server": {
+      "release-type": "node",
+      "component": "javascript-server"
+    },
+    "javascript/web": {
+      "release-type": "node",
+      "component": "javascript-web"
+    },
+    "python": {
+      "release-type": "python",
+      "component": "python"
+    }
+  }
+}
