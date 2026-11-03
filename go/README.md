@@ -1,0 +1,194 @@
+# Hyphen OpenFeature Provider for Go
+
+[![Latest Release](https://img.shields.io/github/v/release/hyphen/openfeature-provider-go)](https://github.com/hyphen/openfeature-provider-go/releases)
+[![Go Reference](https://pkg.go.dev/badge/github.com/hyphen/openfeature-provider-go.svg)](https://pkg.go.dev/github.com/hyphen/openfeature-provider-go)
+[![License](https://img.shields.io/github/license/hyphen/openfeature-provider-go)](https://github.com/hyphen/openfeature-provider-go/blob/main/LICENSE)
+
+This repository contains the Hyphen Provider implementation for the [OpenFeature](https://openfeature.dev) Go SDK.
+
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Configuration](#configuration)
+4. [Development](#development)
+5. [Contributing](#contributing)
+6. [License](#license)
+
+## Installation
+
+```bash
+go get github.com/hyphen/openfeature-provider-go
+go get github.com/open-feature/go-sdk
+```
+
+## Usage
+### Quick Start
+
+```go
+package main
+
+import (
+    "context"
+    "log"
+    "github.com/open-feature/go-sdk/openfeature"
+    "github.com/hyphen/openfeature-provider-go/pkg/toggle"
+)
+
+func main() {
+    // Initialize the provider
+    provider, err := toggle.NewProvider(toggle.Config{
+        PublicKey:   "your-public-key",
+        Application: "your-app",
+        Environment: "development", // Or "pevr_abc123" using project environment ID format
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Set as global provider
+    openfeature.SetProvider(provider)
+
+    // Create a client
+    client := openfeature.NewClient("my-app")
+
+    // Create evaluation context
+    ctx := openfeature.NewEvaluationContext(
+        "user-123",
+        map[string]interface{}{
+            "email": "user@example.com",
+            "plan":  "premium",
+        },
+    )
+
+    // Evaluate different types of flags
+    boolFlag, _ := client.BooleanValue(context.Background(), "my-bool-flag", false, ctx)
+    stringFlag, _ := client.StringValue(context.Background(), "my-string-flag", "default", ctx)
+    numberFlag, _ := client.NumberValue(context.Background(), "my-number-flag", 0, ctx)
+
+    log.Printf("Bool Flag: %v", boolFlag)
+    log.Printf("String Flag: %s", stringFlag)
+    log.Printf("Number Flag: %f", numberFlag)
+}
+```
+
+## Advanced Usage
+
+### Evaluation Context
+
+The evaluation context allows you to pass targeting information:
+
+```go
+ctx := openfeature.NewEvaluationContext(
+    "user-123",
+    map[string]interface{}{
+        "email":      "user@example.com",
+        "plan":       "premium",
+        "age":        25,
+        "country":    "US",
+        "beta_user":  true,
+    },
+)
+```
+
+### Caching Configuration
+
+Configure caching to improve performance:
+
+```go
+config := toggle.Config{
+    PublicKey:   "your-public-key",
+    Application: "your-app",
+    Environment: "development",
+    Cache: &toggle.CacheConfig{
+        TTL: time.Minute * 5,
+        KeyGen: func(ctx toggle.EvaluationContext) string {
+            return fmt.Sprintf("%s-%s", ctx.TargetingKey, ctx.GetValue("plan"))
+        },
+    },
+}
+```
+
+### Usage Telemetry
+
+By default, the provider sends telemetry data about feature flag evaluations to Hyphen (EnableUsage is `true`). To disable usage telemetry, you can set `EnableUsage` to `false` in the configuration:
+
+```go
+disableUsage := false
+provider, err := toggle.NewProvider(toggle.Config{
+    PublicKey:   "your-public-key",
+    Application: "your-app",
+    // Using alternateId format:
+    Environment: "development",
+    // OR using project environment ID format:
+    // Environment: "pevr_abc123",
+    EnableUsage: &disableUsage, // Disable usage telemetry
+})
+```
+Note: Since EnableUsage is a pointer to bool, you need to first declare a boolean variable and then pass its address to the configuration.
+
+## Configuration
+
+### Provider Options
+
+| Option        | Type       | Required | Description                                                                                |
+| ------------- | ---------- | :------- | ------------------------------------------------------------------------------------------ |
+| `PublicKey`   | `string`   | Yes      | Your Hyphen API public key.                                                                |
+| `Application` | `string`   | Yes      | The application id or alternate id.                                                        |
+| `Environment` | `string`   | Yes      | The environment identifier for the Hyphen project (project environment ID or alternateId). |
+| `HorizonUrls` | `[]string` | No       | Hyphen Horizon URLs for fetching flags.                                                    |
+| `EnableUsage` | `bool`     | No       | Enable/disable telemetry (default: true).                                                  |
+| `Cache`       | `object`   | No       | Configuration for caching feature flag evaluations.                                        |
+
+### Caching
+The provider supports caching of evaluation results:
+
+| Property | Type     | Default | Description                                                     |
+| :------- | :------- | :------ | :-------------------------------------------------------------- |
+| `TTL`    | number   | 300     | Time-to-live in seconds for cached flag evaluations.            |
+| `KeyGen` | Function | -       | Custom function to generate cache keys from evaluation context. |
+
+Example with cache configuration:
+
+```go
+config := toggle.Config{
+    PublicKey:   "your-public-key",
+    Application: "your-app",
+    // Using alternateId format:
+    Environment: "development",
+    // OR using project environment ID format:
+    // Environment: "pevr_abc123",
+    Cache: &toggle.CacheConfig{
+        TTL: time.Minute * 5,
+        KeyGen: func(ctx toggle.EvaluationContext) string {
+            return ctx.TargetingKey
+        },
+    },
+}
+```
+
+## Development
+
+### Requirements
+
+- Go 1.19 or higher
+
+### Running Tests
+
+```bash
+go test ./...
+```
+
+### Building
+
+```bash
+go build ./...
+```
+
+## Contributing
+
+We welcome contributions to this project! If you'd like to contribute, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md). Whether it's reporting issues, suggesting new features, or submitting pull requests, your help is greatly appreciated!
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for full details.
