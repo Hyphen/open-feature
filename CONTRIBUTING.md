@@ -50,6 +50,20 @@ Releases are automated with [release-please](https://github.com/googleapis/relea
 2. Merging that pull request tags the release (`go/vX.Y.Z`, `javascript-server-vX.Y.Z`, `javascript-web-vX.Y.Z`, `python-vX.Y.Z`), creates the GitHub release and publishes the package (npm, PyPI; Go is published by the tag itself).
 3. The .NET provider is released manually with the `.NET Release` workflow (`dotnet-release.yaml`) after bumping `<Version>` in `dotnet/src/Hyphen.OpenFeature.Provider/OpenFeature.Provider.csproj`.
 
+### Baseline tags (one-time, for maintainers)
+
+release-please finds each package's previous release by its tag. The providers' earlier releases were tagged in their old repositories, so after the consolidation pull request is merged (with a **merge commit**), push one baseline tag per package on that merge commit:
+
+```bash
+git tag go/v1.0.4 <merge-commit-sha>
+git tag javascript-server-v1.0.7 <merge-commit-sha>
+git tag javascript-web-v1.0.6 <merge-commit-sha>
+git tag python-v1.1.1 <merge-commit-sha>
+git push origin go/v1.0.4 javascript-server-v1.0.7 javascript-web-v1.0.6 python-v1.1.1
+```
+
+The tag names must match exactly. Until these tags exist, `bootstrap-sha` in `release-please-config.json` keeps release-please from counting the imported history again. Once they exist, `bootstrap-sha` is no longer used and can be removed. The `go/v1.0.4` tag also makes `go get github.com/hyphen/open-feature/go@v1.0.4` work.
+
 ## Creating issues
 
 - Search for existing issues first.
