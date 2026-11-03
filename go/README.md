@@ -1,10 +1,10 @@
 # Hyphen OpenFeature Provider for Go
 
-[![Latest Release](https://img.shields.io/github/v/release/hyphen/openfeature-provider-go)](https://github.com/hyphen/openfeature-provider-go/releases)
-[![Go Reference](https://pkg.go.dev/badge/github.com/hyphen/openfeature-provider-go.svg)](https://pkg.go.dev/github.com/hyphen/openfeature-provider-go)
-[![License](https://img.shields.io/github/license/hyphen/openfeature-provider-go)](https://github.com/hyphen/openfeature-provider-go/blob/main/LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/Hyphen/open-feature?filter=go%2F*&label=release)](https://github.com/Hyphen/open-feature/releases?q=go%2F&expanded=true)
+[![Go Reference](https://pkg.go.dev/badge/github.com/hyphen/open-feature/go.svg)](https://pkg.go.dev/github.com/hyphen/open-feature/go)
+[![License](https://img.shields.io/github/license/Hyphen/open-feature)](https://github.com/Hyphen/open-feature/blob/main/go/LICENSE)
 
-This repository contains the Hyphen Provider implementation for the [OpenFeature](https://openfeature.dev) Go SDK.
+This directory contains the Hyphen Provider implementation for the [OpenFeature](https://openfeature.dev) Go SDK.
 
 ## Table of Contents
 
@@ -18,9 +18,11 @@ This repository contains the Hyphen Provider implementation for the [OpenFeature
 ## Installation
 
 ```bash
-go get github.com/hyphen/openfeature-provider-go
+go get github.com/hyphen/open-feature/go
 go get github.com/open-feature/go-sdk
 ```
+
+> **Moved:** this provider used to live in [Hyphen/openfeature-provider-go](https://github.com/Hyphen/openfeature-provider-go) with the module path `github.com/hyphen/openfeature-provider-go`. It now lives in the `go/` directory of [Hyphen/open-feature](https://github.com/Hyphen/open-feature), and the module path is `github.com/hyphen/open-feature/go`. When you upgrade, change imports such as `github.com/hyphen/openfeature-provider-go/pkg/toggle` to `github.com/hyphen/open-feature/go/pkg/toggle`. Versions up to v1.0.4 stay available at the old path.
 
 ## Usage
 ### Quick Start
@@ -32,7 +34,7 @@ import (
     "context"
     "log"
     "github.com/open-feature/go-sdk/openfeature"
-    "github.com/hyphen/openfeature-provider-go/pkg/toggle"
+    "github.com/hyphen/open-feature/go/pkg/toggle"
 )
 
 func main() {
