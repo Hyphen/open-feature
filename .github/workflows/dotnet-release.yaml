@@ -1,4 +1,4 @@
-name: Release
+name: .NET Release
 
 on:
   workflow_dispatch:
@@ -8,6 +8,10 @@ permissions:
   issues: write
   pull-requests: write
   id-token: write
+
+defaults:
+  run:
+    working-directory: dotnet
 
 jobs:
   lint:
@@ -20,10 +24,10 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Cache NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('dotnet/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore dependencies
@@ -41,10 +45,10 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Cache NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('dotnet/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore dependencies
@@ -62,10 +66,10 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Cache NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('dotnet/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore dependencies
@@ -84,10 +88,10 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Cache NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('dotnet/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Pack

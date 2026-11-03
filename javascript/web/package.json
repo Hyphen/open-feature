@@ -14,7 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hyphen/openfeature-provider-javascript-web.git"
+    "url": "git+https://github.com/Hyphen/open-feature.git",
+    "directory": "javascript/web"
   },
   "keywords": [
     "toggle",
@@ -26,9 +27,9 @@
   "author": "@hyphen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Hyphen/openfeature-provider-javascript-web/issues"
+    "url": "https://github.com/Hyphen/open-feature/issues"
   },
-  "homepage": "https://github.com/Hyphen/openfeature-provider-javascript-web#readme",
+  "homepage": "https://github.com/Hyphen/open-feature/tree/main/javascript/web#readme",
   "dependencies": {
     "object-hash": "^3.0.0"
   },
@@ -38,11 +39,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.0",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.1",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/object-hash": "^3.0.6",
     "@typescript-eslint/eslint-plugin": "^8.16.0",
@@ -51,7 +47,6 @@
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.3",
-    "semantic-release": "^24.2.0",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
@@ -59,32 +54,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogFile": "CHANGELOG.md"
-        }
-      ],
-      "@semantic-release/npm",
-      "@semantic-release/github",
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "CHANGELOG.md",
-            "package.json*"
-          ],
-          "message": "chore(release): set `package.json` to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-        }
-      ]
-    ]
   }
 }

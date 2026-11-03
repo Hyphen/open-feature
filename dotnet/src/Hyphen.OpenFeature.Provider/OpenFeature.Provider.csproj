@@ -10,6 +10,9 @@
         <Authors>Hyphen</Authors>
         <Company>Hyphen</Company>
         <Description>Hyphen provider implementation for OpenFeature .NET SDK</Description>
+        <RepositoryUrl>https://github.com/Hyphen/open-feature</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageProjectUrl>https://github.com/Hyphen/open-feature/tree/main/dotnet</PackageProjectUrl>
     </PropertyGroup>
 
     <ItemGroup>

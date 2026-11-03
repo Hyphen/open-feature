@@ -1,0 +1,147 @@
+name: Release
+
+# release-please opens one release pull request per package. Merging a release
+# pull request tags the release, creates the GitHub release, and then the
+# matching publish job below runs. Go is published by its `go/vX.Y.Z` tag.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    outputs:
+      go_released: ${{ steps.release.outputs['go--release_created'] }}
+      go_version: ${{ steps.release.outputs['go--version'] }}
+      javascript_server_released: ${{ steps.release.outputs['javascript/server--release_created'] }}
+      javascript_server_tag: ${{ steps.release.outputs['javascript/server--tag_name'] }}
+      javascript_web_released: ${{ steps.release.outputs['javascript/web--release_created'] }}
+      javascript_web_tag: ${{ steps.release.outputs['javascript/web--tag_name'] }}
+      python_released: ${{ steps.release.outputs['python--release_created'] }}
+      python_tag: ${{ steps.release.outputs['python--tag_name'] }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish-javascript-server:
+    name: Publish JavaScript Server
+    needs: release-please
+    if: ${{ needs.release-please.outputs.javascript_server_released == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: javascript/server
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.javascript_server_tag }}
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: javascript/server/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: npm run build
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-javascript-web:
+    name: Publish JavaScript Web
+    needs: release-please
+    if: ${{ needs.release-please.outputs.javascript_web_released == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: javascript/web
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.javascript_web_tag }}
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: javascript/web/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+      - name: Build
+        run: npm run build
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-python:
+    name: Publish Python
+    needs: release-please
+    if: ${{ needs.release-please.outputs.python_released == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.python_tag }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v4
+        with:
+          poetry-version: '1.8.1'
+      - name: Install dependencies
+        run: poetry install --no-interaction
+      - name: Lint
+        run: poetry run ruff check .
+      - name: Test
+        run: poetry run pytest
+      - name: Build
+        run: poetry build
+      - name: Publish to PyPI
+        run: poetry publish
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+
+  index-go-module:
+    name: Index Go Module
+    needs: release-please
+    if: ${{ needs.release-please.outputs.go_released == 'true' }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Ask the Go module proxy to fetch the new version
+        run: curl -sSf "https://proxy.golang.org/github.com/hyphen/open-feature/go/@v/v${{ needs.release-please.outputs.go_version }}.info"
