@@ -8,7 +8,7 @@ Contributors are expected to maintain a respectful and inclusive environment for
 
 ## Development Setup
 
-1. Fork and clone the repository
+1. Fork and clone the repository, then `cd javascript/server` (all commands below run from that directory)
 2. Install dependencies: `npm install`
 3. Run tests: `npm test`
 4. Run linting: `npm run lint`

@@ -137,7 +137,7 @@ Provide an `EvaluationContext` to pass contextual data for feature evaluation.
 
 
 ## Contributing
-We welcome contributions to this project! If you'd like to contribute, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md). Whether it's reporting issues, suggesting new features, or submitting pull requests, your help is greatly appreciated!
+We welcome contributions to this project! If you'd like to contribute, please follow the guidelines outlined in [CONTRIBUTING.md](../CONTRIBUTING.md). Whether it's reporting issues, suggesting new features, or submitting pull requests, your help is greatly appreciated!
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for full details.

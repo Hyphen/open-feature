@@ -1,0 +1,16 @@
+# Repository-wide ignores. Each provider directory has its own .gitignore
+# for language-specific build output.
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and local environment
+*.log
+.env

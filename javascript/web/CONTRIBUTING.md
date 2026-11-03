@@ -6,7 +6,7 @@ We release new versions of this project (maintenance/features) on a monthly cade
 # Pull Request Process
 You can contribute changes to this repo by opening a pull request:
 
-1) After forking this repository to your Git account, make the proposed changes on your forked branch.
+1) After forking this repository to your Git account, make the proposed changes on your forked branch. This package lives in the `javascript/web` directory; run the commands below from there.
 2) Run tests and linting locally.
   - Run `npm install`.
   - Run `npm test`.

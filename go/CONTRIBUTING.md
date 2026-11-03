@@ -8,7 +8,7 @@ Contributors are expected to maintain a respectful and inclusive environment for
 
 ## Development Setup
 
-1. Fork and clone the repository
+1. Fork and clone the repository, then `cd go` (all commands below run from that directory)
 2. Install Go 1.21 or later
 3. Install golangci-lint for code linting
 4. Run tests: `go test ./...`

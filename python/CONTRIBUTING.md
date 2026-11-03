@@ -8,7 +8,7 @@ Contributors are expected to maintain a respectful and inclusive environment for
 
 ## Development Setup
 
-1. Fork and clone the repository
+1. Fork and clone the repository, then `cd python` (all commands below run from that directory)
 2. Install Poetry (package manager) if you haven't already:
    ```bash
    curl -sSL https://install.python-poetry.org | python3 -
@@ -52,7 +52,7 @@ Contributors are expected to maintain a respectful and inclusive environment for
 ## Project Structure
 
 ```
-openfeature-provider-python/
+python/
 ├── src/
 │   └── openfeature_provider_hyphen/  # Main provider implementation
 ├── examples/                         # Usage examples
@@ -65,7 +65,7 @@ openfeature-provider-python/
 - Provide clear reproduction steps
 - Include relevant versions:
   - Python version
-  - openfeature-provider-python version
+  - hyphen-openfeature-provider version
   - openfeature-sdk version
   - Operating system
 
