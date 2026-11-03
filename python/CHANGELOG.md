@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## [1.1.2](https://github.com/Hyphen/open-feature/compare/python-v1.1.1...python-v1.1.2) (2026-11-03)
+
+
+### Documentation
+
+* add root README, CONTRIBUTING, .gitignore and shared issue templates ([d06e6c5](https://github.com/Hyphen/open-feature/commit/d06e6c50ae5ecfdc8761f1899e36c7e872997088))
+
 ## v1.1.0 (2025-04-03)
 
 ### Features
