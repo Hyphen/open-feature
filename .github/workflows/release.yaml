@@ -32,7 +32,7 @@ jobs:
       python_released: ${{ steps.release.outputs['python--release_created'] }}
       python_tag: ${{ steps.release.outputs['python--tag_name'] }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@v5
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -48,11 +48,11 @@ jobs:
       run:
         working-directory: javascript/server
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.release-please.outputs.javascript_server_tag }}
       - name: Use Node.js 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
@@ -80,11 +80,11 @@ jobs:
       run:
         working-directory: javascript/web
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.release-please.outputs.javascript_web_tag }}
       - name: Use Node.js 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
@@ -112,11 +112,11 @@ jobs:
       run:
         working-directory: python
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.release-please.outputs.python_tag }}
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Install Poetry
