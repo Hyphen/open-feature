@@ -2,7 +2,7 @@ module github.com/hyphen/open-feature/go
 
 go 1.21
 
-toolchain go1.22.3
+toolchain go1.22.12
 
 require (
 	github.com/open-feature/go-sdk v1.14.0
