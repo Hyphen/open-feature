@@ -33,7 +33,7 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: '1.8.1'
+          poetry-version: '2.5.1'
       - name: Configure Poetry
         run: |
           poetry config virtualenvs.create true --local
@@ -63,7 +63,7 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: '1.8.1'
+          poetry-version: '2.5.1'
       - name: Configure Poetry
         run: |
           poetry config virtualenvs.create true --local
@@ -93,7 +93,7 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v4
         with:
-          poetry-version: '1.8.1'
+          poetry-version: '2.5.1'
       - name: Configure Poetry
         run: |
           poetry config virtualenvs.create true --local
