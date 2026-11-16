@@ -4,13 +4,13 @@ import { cache } from './config';
 import hash from 'object-hash';
 
 export class CacheClient {
-  private readonly cache: NodeCache;
+  private readonly cache: NodeCache<unknown>;
   private readonly generateCacheKeyFn: GenerateCacheKeyFn;
 
   constructor(cacheConfig?: HyphenProviderOptions['cache']) {
     const ttlSeconds = cacheConfig?.ttlSeconds ?? cache.ttlSeconds;
 
-    this.cache = new NodeCache({
+    this.cache = new NodeCache<unknown>({
       stdTTL: ttlSeconds,
       checkperiod: ttlSeconds * 2,
     });
@@ -28,7 +28,7 @@ export class CacheClient {
 
   get<T>(context: HyphenEvaluationContext): T | undefined {
     const key = this.generateCacheKey(context);
-    return this.cache.get<T>(key);
+    return this.cache.get(key) as T | undefined;
   }
 
   set<T>(context: HyphenEvaluationContext, value: T) {
